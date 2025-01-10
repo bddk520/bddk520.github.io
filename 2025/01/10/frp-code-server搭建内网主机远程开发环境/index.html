@@ -13,7 +13,7 @@
 
 
 
-<title>如何利用vscode记笔记并搭建博客 | Hexo</title>
+<title>frp + code-server搭建内网主机远程开发环境 | Hexo</title>
 
 
 
@@ -198,7 +198,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">如何利用vscode记笔记并搭建博客</h1>
+            <h1 class="post-title">frp + code-server搭建内网主机远程开发环境</h1>
             
                 <div class="post-meta">
                     
@@ -207,7 +207,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">January 8, 2025&nbsp;&nbsp;23:17:10</a>
+                        Date: <a href="#">January 10, 2025&nbsp;&nbsp;21:13:02</a>
                         </span>
                     
                     
@@ -216,52 +216,21 @@
         </header>
 
         <div class="post-content">
-            <h1 id="使用-VS-Code-和-Hexo-搭建个人博客"><a href="#使用-VS-Code-和-Hexo-搭建个人博客" class="headerlink" title="使用 VS Code 和 Hexo 搭建个人博客"></a>使用 VS Code 和 Hexo 搭建个人博客</h1><p>本文将介绍如何使用 Visual Studio Code（VS Code）和 Hexo 搭建个人博客，并通过 GitHub Pages 发布。</p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>在开始之前，请确保已安装以下工具：</p>
-<ol>
-<li><p><strong>Node.js</strong>：Hexo 基于 Node.js，因此需要先安装它。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Node.js 官方下载</a></li>
-</ul>
-</li>
-<li><p><strong>Git</strong>：用于版本控制和将博客部署到 GitHub。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git 官方下载</a></li>
-</ul>
-</li>
-<li><p><strong>Visual Studio Code</strong>：强大的代码编辑器，用于撰写和管理博客文章。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VS Code 官方下载</a></li>
-</ul>
-</li>
-</ol>
-<h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>在安装了 Node.js 和 Git 后，打开命令行工具，输入以下命令全局安装 Hexo：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+            <h1 id="frp-code-server搭建内网主机远程开发环境"><a href="#frp-code-server搭建内网主机远程开发环境" class="headerlink" title="frp + code-server搭建内网主机远程开发环境"></a>frp + code-server搭建内网主机远程开发环境</h1><p>从学长那里要了台4090，但主机在内网中，学长让我的是向日葵连接主机。我个人不喜欢用远程桌面控制软件，画质差，而且写代码不太好用，要在虚拟机中装个vscode，使用感奇差。最初，我想的是用frp把ssh端口映射到外网，然后用vscode的ssh插件连接，但是学长说这台机子有其他人用的ssh连接的，因此我放弃了这个方案。后来我想到了code-server，我用frp转发code-server的端口，然后在本地用浏览器打开code-server，这样就可以在本地写代码了。</p>
+<h2 id="安装code-server"><a href="#安装code-server" class="headerlink" title="安装code-server"></a>安装code-server</h2><p>安装code-server很简单，直接在<a target="_blank" rel="noopener" href="https://coder.com/">code-server官网</a>安装即可。</p>
+<p>接着填写code-server的配置文件，配置文件在<code>~/.config/code-server/config.yaml</code>，配置文件如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">bind-addr:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:8080</span>  <span class="comment"># 监听地址和端口</span></span><br><span class="line"><span class="attr">auth:</span> <span class="string">password</span>             <span class="comment"># 身份验证方式</span></span><br><span class="line"><span class="attr">password:</span> <span class="string">your_password</span>    <span class="comment"># 登录密码</span></span><br><span class="line"><span class="attr">cert:</span> <span class="literal">false</span>                <span class="comment"># 是否启用 HTTPS</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="初始化博客"><a href="#初始化博客" class="headerlink" title="初始化博客"></a>初始化博客</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h2 id="在公网服务器上安装frps"><a href="#在公网服务器上安装frps" class="headerlink" title="在公网服务器上安装frps"></a>在公网服务器上安装frps</h2><p>我之前在阿里云买过一个轻量应用服务器玩玩，所以我直接在这个服务器上安装frps。我在这个服务器安装过1Panel,我直接在1Panel上安装frps。</p>
+<p><img src="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/%E5%AE%89%E8%A3%85frps.png" alt="1736515986031"></p>
+<p>接着需要填写frps的配置文件，配置文件如下：</p>
+<p><img src="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/frps%E9%85%8D%E7%BD%AE.png" alt="alt text"></p>
+<p>启动服务即可。不过要注意的是要打开服务器的防火墙的对应端口（服务端口，dashboard）,以及阿里云的安全组要放行对应的端口。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">## 在内网机器上安装frpc</span></span><br><span class="line"></span><br><span class="line">接着在内网的4090上安装frpc,安装frpc也很简单，直接在[frp官网](https://github.com/fatedier/frp)的release页面下载对应的版本，然后解压即可。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">接着需要填写frpc的配置文件，配置文件如下：</span><br><span class="line"></span><br><span class="line">```toml</span><br><span class="line">serverAddr = <span class="string">&quot;有公网ip服务器的ip&quot;</span></span><br><span class="line">serverPort = 7000(与frps配置文件中的server_port对饮即可)</span><br><span class="line">auth.method = <span class="string">&quot;token&quot;</span></span><br><span class="line">auth.token = <span class="string">&quot;你的token&quot;</span></span><br><span class="line"></span><br><span class="line">[[proxies]]</span><br><span class="line">name = <span class="string">&quot;code-server&quot;</span></span><br><span class="line"><span class="built_in">type</span> = <span class="string">&quot;tcp&quot;</span></span><br><span class="line">localIP = <span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line">localPort = 8080(code-server的端口)</span><br><span class="line">remotePort = 9000(随便填一个没被占用的端口)</span><br></pre></td></tr></table></figure>
+<p>启动frpc即可。注意要打开阿里云机器的防火墙的对应端口，以及阿里云的安全组要放行对应的端口。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c frpc.toml</span><br></pre></td></tr></table></figure>
 
-<h2 id="配置Github-Pages"><a href="#配置Github-Pages" class="headerlink" title="配置Github Pages"></a>配置Github Pages</h2><ol>
-<li><strong>创建 GitHub 仓库</strong> ：在 GitHub 上新建一个仓库，命名为 <code>yourusername.github.io</code>，其中 <code>yourusername</code> 为你的 GitHub 用户名。</li>
-<li><strong>安装部署插件</strong> ：在博客根目录下，执行以下命令安装 Hexo 的 Git 部署插件：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong>配置 <code>_config.yml</code></strong> ：打开博客根目录下的 <code>_config.yml</code> 文件，找到并修改 <code>deploy</code> 部分：</li>
-</ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">https://github.com/yourusername/yourusername.github.io.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-<p>请将 yourusername 替换为你的 GitHub 用户名。</p>
-<h2 id="vscode笔记辅助插件"><a href="#vscode笔记辅助插件" class="headerlink" title="vscode笔记辅助插件"></a>vscode笔记辅助插件</h2><ul>
-<li><strong>Markdown All in One</strong> ：提供 Markdown 语法高亮、预览等功能。</li>
-<li><strong>Paste Image</strong> ：允许直接在 Markdown 文件中粘贴图片，并自动保存到指定目录。</li>
-<li><strong>Markdown Preview Enhanced</strong> ：支持复杂的公式、图表渲染。</li>
-</ul>
-<p>安装这些插件后，可以在 VS Code 中直接执行 Hexo 命令，如创建新文章：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">hexo new <span class="string">&quot;如何利用vscode记笔记并搭建博客&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-<p>执行完成后，几分钟内即可在 <a target="_blank" rel="noopener" href="https://yourusername.github.io/">https://yourusername.github.io</a> 访问您的个人博客。</p>
+<p>接着在浏览器中输入<code>http://有公网ip服务器的ip:9000</code>即可打开code-server。</p>
 
         </div>
 
@@ -290,7 +259,9 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"># 博客搭建</a>
+                        <a href="/tags/frp/"># frp</a>
+                    
+                        <a href="/tags/code-server/"># code-server</a>
                     
                         
                 </span>
@@ -303,10 +274,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">frp + code-server搭建内网主机远程开发环境</a>
             
-            
-            <a class="next" rel="next" href="/2024/09/28/test/">test</a>
+            <a class="next" rel="next" href="/2025/01/08/%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8vscode%E8%AE%B0%E7%AC%94%E8%AE%B0%E5%B9%B6%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">如何利用vscode记笔记并搭建博客</a>
             
         </section>
 
