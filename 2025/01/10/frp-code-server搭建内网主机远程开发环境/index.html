@@ -239,6 +239,38 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c frpc.toml</span><br></pre></td></tr></table></figure>
 
 <p>接着在浏览器中输入 <code>http://有公网ip服务器的ip:9000</code>即可打开code-server。</p>
+<h2 id="配置开机自启"><a href="#配置开机自启" class="headerlink" title="配置开机自启"></a>配置开机自启</h2><h3 id="配置frpc开机自启"><a href="#配置frpc开机自启" class="headerlink" title="配置frpc开机自启"></a>配置frpc开机自启</h3><p>阿里云的服务器用的是1Panel启动的frps，无需配置开机自启。我只要在内网的4090上配置开机自启即可。</p>
+<p>首先在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;frpc.service配置frpc.service。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/systemd/system/frpc.service</span><br></pre></td></tr></table></figure>
+
+<p>frpc.service的内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=code-server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">User</span>=your_username</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/code-server --config /home/your_username/.config/code-server/config.yaml</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">10</span>s</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>接着保存并关闭文件后，重新加载 systemd 配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>启动 code-server 服务并设置为开机自启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start code-server</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> code-server</span><br></pre></td></tr></table></figure>
+
+<p>您可以使用以下命令查看 code-server 服务的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status code-server</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置code-server开机自启"><a href="#配置code-server开机自启" class="headerlink" title="配置code-server开机自启"></a>配置code-server开机自启</h3><p>与frpc的配置类似，只需要在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;frpc.service配置code-server.service即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/systemd/system/code-server.service</span><br></pre></td></tr></table></figure>
+<p>将以下内容复制到 code-server.service 文件中：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=code-server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">User</span>=your_username</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/code-server --config ~/.config/code-server/config.yaml</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">10</span>s</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>保存并退出。重新加载 systemd 配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>启用服务并设置开机自启</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start code-server</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> code-server</span><br></pre></td></tr></table></figure>
+
+<p>检查服务状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status code-server</span><br></pre></td></tr></table></figure>
+
+<p>打开浏览器，访问 http:&#x2F;&#x2F;&lt;服务器IP&gt;:8080，验证 code-server 是否正常运行。（同时输入阿里云的ip加对应端口，查看能否访问code-server）</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080</span><br></pre></td></tr></table></figure>
 
         </div>
 
