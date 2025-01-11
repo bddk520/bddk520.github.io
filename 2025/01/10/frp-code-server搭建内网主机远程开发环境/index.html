@@ -223,30 +223,30 @@
         </header>
 
         <div class="post-content">
-            <p>从学长那里要了台4090，但主机在内网中，学长让我的是向日葵连接主机。我个人不喜欢用远程桌面控制软件，画质差，而且写代码不太好用，要在虚拟机中装个vscode，使用感奇差。最初，我想的是用frp把ssh端口映射到外网，然后用vscode的ssh插件连接，但是学长说这台机子有其他人用的ssh连接的，因此我放弃了这个方案。后来我想到了code-server，我用frp转发code-server的端口，然后在本地用浏览器打开code-server，这样就可以在本地写代码了。</p>
-<h2 id="安装code-server"><a href="#安装code-server" class="headerlink" title="安装code-server"></a>安装code-server</h2><p>安装code-server很简单，直接在<a target="_blank" rel="noopener" href="https://coder.com/">code-server官网</a>安装即可。</p>
-<p>接着填写code-server的配置文件，配置文件在 <code>~/.config/code-server/config.yaml</code>，配置文件如下：</p>
+            <p>从学长那里要了台4090,但主机在内网中,学长让我的是向日葵连接主机.我个人不喜欢用远程桌面控制软件,画质差,而且写代码不太好用,要在虚拟机中装个vscode,使用感奇差.最初,我想的是用frp把ssh端口映射到外网,然后用vscode的ssh插件连接,但是学长说这台机子有其他人用的ssh连接的,因此我放弃了这个方案.后来我想到了code-server,我用frp转发code-server的端口,然后在本地用浏览器打开code-server,这样就可以在本地写代码了.</p>
+<h2 id="安装code-server"><a href="#安装code-server" class="headerlink" title="安装code-server"></a>安装code-server</h2><p>安装code-server很简单,直接在<a target="_blank" rel="noopener" href="https://coder.com/">code-server官网</a>安装即可.</p>
+<p>接着填写code-server的配置文件,配置文件在 <code>~/.config/code-server/config.yaml</code>,配置文件如下：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">bind-addr:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:8080</span>  <span class="comment"># 监听地址和端口</span></span><br><span class="line"><span class="attr">auth:</span> <span class="string">password</span>             <span class="comment"># 身份验证方式</span></span><br><span class="line"><span class="attr">password:</span> <span class="string">your_password</span>    <span class="comment"># 登录密码</span></span><br><span class="line"><span class="attr">cert:</span> <span class="literal">false</span>                <span class="comment"># 是否启用 HTTPS</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="在公网服务器上安装frps"><a href="#在公网服务器上安装frps" class="headerlink" title="在公网服务器上安装frps"></a>在公网服务器上安装frps</h2><p>我之前在阿里云买过一个轻量应用服务器玩玩，所以我直接在这个服务器上安装frps。我在这个服务器安装过1Panel,我直接在1Panel上安装frps。</p>
+<h2 id="在公网服务器上安装frps"><a href="#在公网服务器上安装frps" class="headerlink" title="在公网服务器上安装frps"></a>在公网服务器上安装frps</h2><p>我之前在阿里云买过一个轻量应用服务器玩玩,所以我直接在这个服务器上安装frps.我在这个服务器安装过1Panel,我直接在1Panel上安装frps.</p>
 <p><img src="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/%E5%AE%89%E8%A3%85frps.png" alt="1736515986031"></p>
-<p>接着需要填写frps的配置文件，配置文件如下：</p>
+<p>接着需要填写frps的配置文件,配置文件如下：</p>
 <p><img src="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/frps%E9%85%8D%E7%BD%AE.png" alt="alt text"></p>
-<p>启动服务即可。不过要注意的是要打开服务器的防火墙的对应端口（服务端口，dashboard）,以及阿里云的安全组要放行对应的端口。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">## 在内网机器上安装frpc</span></span><br><span class="line"></span><br><span class="line">接着在内网的4090上安装frpc,安装frpc也很简单，直接在[frp官网](https://github.com/fatedier/frp)的release页面下载对应的版本，然后解压即可。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">接着需要填写frpc的配置文件，配置文件如下：</span><br><span class="line"></span><br><span class="line">```toml</span><br><span class="line">serverAddr = <span class="string">&quot;有公网ip服务器的ip&quot;</span></span><br><span class="line">serverPort = 7000(与frps配置文件中的server_port对饮即可)</span><br><span class="line">auth.method = <span class="string">&quot;token&quot;</span></span><br><span class="line">auth.token = <span class="string">&quot;你的token&quot;</span></span><br><span class="line"></span><br><span class="line">[[proxies]]</span><br><span class="line">name = <span class="string">&quot;code-server&quot;</span></span><br><span class="line"><span class="built_in">type</span> = <span class="string">&quot;tcp&quot;</span></span><br><span class="line">localIP = <span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line">localPort = 8080(code-server的端口)</span><br><span class="line">remotePort = 9000(随便填一个没被占用的端口)</span><br></pre></td></tr></table></figure>
+<p>启动服务即可.不过要注意的是要打开服务器的防火墙的对应端口（服务端口,dashboard）,以及阿里云的安全组要放行对应的端口.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">## 在内网机器上安装frpc</span></span><br><span class="line"></span><br><span class="line">接着在内网的4090上安装frpc,安装frpc也很简单,直接在[frp官网](https://github.com/fatedier/frp)的release页面下载对应的版本,然后解压即可.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">接着需要填写frpc的配置文件,配置文件如下：</span><br><span class="line"></span><br><span class="line">```toml</span><br><span class="line">serverAddr = <span class="string">&quot;有公网ip服务器的ip&quot;</span></span><br><span class="line">serverPort = 7000(与frps配置文件中的server_port对饮即可)</span><br><span class="line">auth.method = <span class="string">&quot;token&quot;</span></span><br><span class="line">auth.token = <span class="string">&quot;你的token&quot;</span></span><br><span class="line"></span><br><span class="line">[[proxies]]</span><br><span class="line">name = <span class="string">&quot;code-server&quot;</span></span><br><span class="line"><span class="built_in">type</span> = <span class="string">&quot;tcp&quot;</span></span><br><span class="line">localIP = <span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line">localPort = 8080(code-server的端口)</span><br><span class="line">remotePort = 9000(随便填一个没被占用的端口)</span><br></pre></td></tr></table></figure>
 
-<p>启动frpc即可。注意要打开阿里云机器的防火墙的对应端口，以及阿里云的安全组要放行对应的端口。</p>
+<p>启动frpc即可.注意要打开阿里云机器的防火墙的对应端口,以及阿里云的安全组要放行对应的端口.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c frpc.toml</span><br></pre></td></tr></table></figure>
 
-<p>接着在浏览器中输入 <code>http://有公网ip服务器的ip:9000</code>即可打开code-server。</p>
-<h2 id="配置开机自启"><a href="#配置开机自启" class="headerlink" title="配置开机自启"></a>配置开机自启</h2><h3 id="配置frpc开机自启"><a href="#配置frpc开机自启" class="headerlink" title="配置frpc开机自启"></a>配置frpc开机自启</h3><p>阿里云的服务器用的是1Panel启动的frps，无需配置开机自启。我只要在内网的4090上配置开机自启即可。</p>
-<p>首先在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;frpc.service配置frpc.service。</p>
+<p>接着在浏览器中输入 <code>http://有公网ip服务器的ip:9000</code>即可打开code-server.</p>
+<h2 id="配置开机自启"><a href="#配置开机自启" class="headerlink" title="配置开机自启"></a>配置开机自启</h2><h3 id="配置frpc开机自启"><a href="#配置frpc开机自启" class="headerlink" title="配置frpc开机自启"></a>配置frpc开机自启</h3><p>阿里云的服务器用的是1Panel启动的frps,无需配置开机自启.我只要在内网的4090上配置开机自启即可.</p>
+<p>首先在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;frpc.service配置frpc.service.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/systemd/system/frpc.service</span><br></pre></td></tr></table></figure>
 
 <p>frpc.service的内容如下：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=code-server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">User</span>=your_username</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/code-server --config /home/your_username/.config/code-server/config.yaml</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">10</span>s</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
 
-<p>接着保存并关闭文件后，重新加载 systemd 配置：</p>
+<p>接着保存并关闭文件后,重新加载 systemd 配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure>
 
 <p>启动 code-server 服务并设置为开机自启动：</p>
@@ -255,12 +255,12 @@
 <p>您可以使用以下命令查看 code-server 服务的状态：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status code-server</span><br></pre></td></tr></table></figure>
 
-<h3 id="配置code-server开机自启"><a href="#配置code-server开机自启" class="headerlink" title="配置code-server开机自启"></a>配置code-server开机自启</h3><p>与frpc的配置类似，只需要在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;frpc.service配置code-server.service即可。</p>
+<h3 id="配置code-server开机自启"><a href="#配置code-server开机自启" class="headerlink" title="配置code-server开机自启"></a>配置code-server开机自启</h3><p>与frpc的配置类似,只需要在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;frpc.service配置code-server.service即可.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/systemd/system/code-server.service</span><br></pre></td></tr></table></figure>
 <p>将以下内容复制到 code-server.service 文件中：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=code-server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">User</span>=your_username</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/code-server --config ~/.config/code-server/config.yaml</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">10</span>s</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
 
-<p>保存并退出。重新加载 systemd 配置。</p>
+<p>保存并退出.重新加载 systemd 配置.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure>
 
 <p>启用服务并设置开机自启</p>
@@ -269,7 +269,7 @@
 <p>检查服务状态</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status code-server</span><br></pre></td></tr></table></figure>
 
-<p>打开浏览器，访问 http:&#x2F;&#x2F;&lt;服务器IP&gt;:8080，验证 code-server 是否正常运行。（同时输入阿里云的ip加对应端口，查看能否访问code-server）</p>
+<p>打开浏览器,访问 http:&#x2F;&#x2F;&lt;服务器IP&gt;:8080,验证 code-server 是否正常运行.（同时输入阿里云的ip加对应端口,查看能否访问code-server）</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080</span><br></pre></td></tr></table></figure>
 
         </div>
@@ -313,6 +313,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/01/12/linux-wsl2-%E4%B8%8B%E5%A4%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda%E5%AE%89%E8%A3%85%E5%88%87%E6%8D%A2/">linux(wsl2)下多版本的cuda安装切换</a>
             
             
             <a class="next" rel="next" href="/2025/01/08/%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8vscode%E8%AE%B0%E7%AC%94%E8%AE%B0%E5%B9%B6%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">如何利用vscode记笔记并搭建博客</a>

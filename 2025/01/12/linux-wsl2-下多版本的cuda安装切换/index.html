@@ -13,7 +13,7 @@
 
 
 
-<title>如何利用vscode记笔记并搭建博客 | Hexo</title>
+<title>linux(wsl2)下多版本的cuda安装切换 | Hexo</title>
 
 
 
@@ -198,7 +198,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">如何利用vscode记笔记并搭建博客</h1>
+            <h1 class="post-title">linux(wsl2)下多版本的cuda安装切换</h1>
             
                 <div class="post-meta">
                     
@@ -207,14 +207,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">January 8, 2025&nbsp;&nbsp;23:17:10</a>
+                        Date: <a href="#">January 12, 2025&nbsp;&nbsp;0:07:11</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
+                                <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">开发环境搭建</a>
                             
                         </span>
                     
@@ -223,53 +223,33 @@
         </header>
 
         <div class="post-content">
-            <h1 id="使用-VS-Code-和-Hexo-搭建个人博客"><a href="#使用-VS-Code-和-Hexo-搭建个人博客" class="headerlink" title="使用 VS Code 和 Hexo 搭建个人博客"></a>使用 VS Code 和 Hexo 搭建个人博客</h1><p>本文将介绍如何使用 Visual Studio Code（VS Code）和 Hexo 搭建个人博客,并通过 GitHub Pages 发布.</p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>在开始之前,请确保已安装以下工具：</p>
-<ol>
-<li><p><strong>Node.js</strong>：Hexo 基于 Node.js,因此需要先安装它.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Node.js 官方下载</a></li>
-</ul>
-</li>
-<li><p><strong>Git</strong>：用于版本控制和将博客部署到 GitHub.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git 官方下载</a></li>
-</ul>
-</li>
-<li><p><strong>Visual Studio Code</strong>：强大的代码编辑器,用于撰写和管理博客文章.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VS Code 官方下载</a></li>
-</ul>
-</li>
-</ol>
-<h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>在安装了 Node.js 和 Git 后,打开命令行工具,输入以下命令全局安装 Hexo：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+            <p>接触深度学习一年多,也复现过不少论文,仓库代码.之前很喜欢用<a target="_blank" rel="noopener" href="https://www.autodl.com/">atudodl</a>,每次复现论文的时候,就看仓库需要的cuda版本,然后在autodl上创建一个对应cuda版本的示例,当时复现论文对cuda了解较少,只知道顺着仓库的readme安装对应的cuda版本.但是今天,我在学长给的4090上复现一个论文,发现其论文需要的cuda版本不支持4090的算力架构8.9.我不太想继续在autodl上创建一个新的示例,毕竟需要花钱.而且我复现的这篇论文的调用的大模型api,需要的算力不大,我就想在自己的笔记本RTX3060上复现.正好我之前就在笔记本上装过wsl2,我就想在wsl2上复现这篇论文</p>
+<h2 id="下载cudatooolkit"><a href="#下载cudatooolkit" class="headerlink" title="下载cudatooolkit"></a>下载cudatooolkit</h2><p>在<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">nvidia官网</a>下载对应的cuda版本,我下载的是cuda 11.8,下载的是runfile本地安装包.</p>
+<p>首先我选择我对应的操作系统和版本.<br><img src="/2025/01/12/linux-wsl2-%E4%B8%8B%E5%A4%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda%E5%AE%89%E8%A3%85%E5%88%87%E6%8D%A2/%E9%80%89%E6%8B%A9%E5%AF%B9%E5%BA%94%E7%89%88%E6%9C%AC%E7%9A%84cudatoolkit.png" alt="alt text"></p>
+<p>接着在命令行中输入以下指令开始安装</p>
+<p><img src="/2025/01/12/linux-wsl2-%E4%B8%8B%E5%A4%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda%E5%AE%89%E8%A3%85%E5%88%87%E6%8D%A2/CLI%E5%AE%89%E8%A3%85.png" alt="alt text"></p>
+<p>安装完后首先修改.run文件的权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x cuda_11.8.0_520.61.05_linux.run </span><br></pre></td></tr></table></figure>
+<p>然后运行.run文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ./cuda_11.8.0_520.61.05_linux.run </span><br></pre></td></tr></table></figure>
 
-<h2 id="初始化博客"><a href="#初始化博客" class="headerlink" title="初始化博客"></a>初始化博客</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<p>接着会出现以下界面,按照提示安装即可,一直选yes,回车即可.</p>
+<p><img src="/2025/01/12/linux-wsl2-%E4%B8%8B%E5%A4%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda%E5%AE%89%E8%A3%85%E5%88%87%E6%8D%A2/%E5%AE%89%E8%A3%85cudatoolkit.png" alt="alt text"></p>
+<p>出现以下界面,说明安装成功</p>
+<p><img src="/2025/01/12/linux-wsl2-%E4%B8%8B%E5%A4%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda%E5%AE%89%E8%A3%85%E5%88%87%E6%8D%A2/%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F.png" alt="alt text"></p>
+<p>为了方便切换cuda版本,我写个脚本,方便切换cuda版本.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$#</span>&quot;</span> -ne 1 ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Usage: <span class="variable">$0</span> &lt;cuda_version&gt;&quot;</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Example: <span class="variable">$0</span> 11.0&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">CUDA_VERSION=<span class="variable">$1</span></span><br><span class="line">CUDA_PATH=/usr/local/cuda-<span class="variable">$CUDA_VERSION</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ ! -d <span class="string">&quot;<span class="variable">$CUDA_PATH</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;CUDA version <span class="variable">$CUDA_VERSION</span> not found in /usr/local/&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> /usr/local/cuda</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s <span class="variable">$CUDA_PATH</span> /usr/local/cuda</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$CUDA_PATH</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$CUDA_PATH</span>/lib64:<span class="variable">$LD_LIBRARY_PATH</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Switched to CUDA <span class="variable">$CUDA_VERSION</span>&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="配置Github-Pages"><a href="#配置Github-Pages" class="headerlink" title="配置Github Pages"></a>配置Github Pages</h2><ol>
-<li><strong>创建 GitHub 仓库</strong> ：在 GitHub 上新建一个仓库,命名为 <code>yourusername.github.io</code>,其中 <code>yourusername</code> 为你的 GitHub 用户名.</li>
-<li><strong>安装部署插件</strong> ：在博客根目录下,执行以下命令安装 Hexo 的 Git 部署插件：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>接着在命令行中输入以下指令,即可切换到对应的cuda版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh switch.sh 11.8</span><br></pre></td></tr></table></figure>
 
-<ol start="3">
-<li><strong>配置 <code>_config.yml</code></strong> ：打开博客根目录下的 <code>_config.yml</code> 文件,找到并修改 <code>deploy</code> 部分：</li>
-</ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">https://github.com/yourusername/yourusername.github.io.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<p>接着在命令行中输入以下指令,查看是否切换成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">which</span> nvcc</span><br><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
 
-<p>请将 yourusername 替换为你的 GitHub 用户名.</p>
-<h2 id="vscode笔记辅助插件"><a href="#vscode笔记辅助插件" class="headerlink" title="vscode笔记辅助插件"></a>vscode笔记辅助插件</h2><ul>
-<li><strong>Markdown All in One</strong> ：提供 Markdown 语法高亮、预览等功能.</li>
-<li><strong>Paste Image</strong> ：允许直接在 Markdown 文件中粘贴图片,并自动保存到指定目录.</li>
-<li><strong>Markdown Preview Enhanced</strong> ：支持复杂的公式、图表渲染.</li>
-</ul>
-<p>安装这些插件后,可以在 VS Code 中直接执行 Hexo 命令,如创建新文章：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">hexo new <span class="string">&quot;如何利用vscode记笔记并搭建博客&quot;</span></span><br></pre></td></tr></table></figure>
+<p>出现类似一下的输出,说明切换成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/cuda/bin/nvcc</span><br></pre></td></tr></table></figure>
 
-<h2 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-<p>执行完成后,几分钟内即可在 <a target="_blank" rel="noopener" href="https://yourusername.github.io/">https://yourusername.github.io</a> 访问您的个人博客.</p>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2022 NVIDIA Corporation</span><br><span class="line">Built on Wed_Sep_21_10:33:58_PDT_2022</span><br><span class="line">Cuda compilation tools, release 11.8, V11.8.89</span><br><span class="line">Build cuda_11.8.r11.8/compiler.31833905_0</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -297,7 +277,9 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"># 博客搭建</a>
+                        <a href="/tags/cuda/"># cuda</a>
+                    
+                        <a href="/tags/wsl2/"># wsl2</a>
                     
                         
                 </span>
@@ -310,8 +292,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">frp + code-server搭建内网主机远程开发环境</a>
             
+            <a class="next" rel="next" href="/2025/01/10/frp-code-server%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">frp + code-server搭建内网主机远程开发环境</a>
             
         </section>
 
