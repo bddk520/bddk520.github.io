@@ -16,9 +16,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-I’m  **Chao Huang** (Chinese: 黄超), presently a fourth-year undergraduate student studying Information Security at [Cyber Science and Engineering (SCSE)](https://cse.whu.edu.cn/index.htm), [Wuhan University (WHU)](https://www.whu.edu.cn/).
-
-I am Chao Huang, and I will pursue my graduate studies at the [University of Science and Technology of China](https://www.ustc.edu.cn/) starting in 2026, under the supervision of [Prof. Weiming Zhang](http://staff.ustc.edu.cn/~zhangwm/) and [Prof. Kejiang Chen](http://home.ustc.edu.cn/~chenkj/).
+I’m  **Chao Huang** (Chinese: 黄超), presently a fourth-year undergraduate student studying Information Security at [Cyber Science and Engineering (SCSE)](https://cse.whu.edu.cn/index.htm), [Wuhan University (WHU)](https://www.whu.edu.cn/),and I will pursue my graduate studies at the [University of Science and Technology of China](https://www.ustc.edu.cn/) starting in 2026, under the supervision of [Prof. Weiming Zhang](http://staff.ustc.edu.cn/~zhangwm/) and [Prof. Kejiang Chen](http://home.ustc.edu.cn/~chenkj/).
 
 My research interests focus on the security of large language models, particularly model watermarking and backdoor attacks.I am open to any research collaboration. Feel free to contact me via [Email](mailto:chaohuang@whu.edu.cn).
 
@@ -52,5 +50,3 @@ My research interests focus on the security of large language models, particular
 - First Class Scholarship of WHU (Top 5%) Wuhan University
 - Merit Student (Top 10%) Wuhan University
 - NSFOCUS Cybersecurity Scholarship
-
-
